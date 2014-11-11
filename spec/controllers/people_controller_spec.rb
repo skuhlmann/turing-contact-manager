@@ -2,15 +2,12 @@ require 'rails_helper'
 
 RSpec.describe PeopleController, :type => :controller do
 
-  # This should return the minimal set of attributes required to create a valid
-  # Person. As you add validations to Person, be sure to
-  # adjust the attributes here as well.
   let(:valid_attributes) {
     { first_name: 'Molly', last_name: 'Bloom' }
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    { first_name: nil, last_name: nil}
   }
 
   # This should return the minimal set of values that should be in the session
@@ -85,14 +82,15 @@ RSpec.describe PeopleController, :type => :controller do
   describe "PUT update" do
     describe "with valid params" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        {first_name: "NewFirstName", last_name: "NewLastName"}
       }
 
       it "updates the requested person" do
         person = Person.create! valid_attributes
         put :update, {:id => person.to_param, :person => new_attributes}, valid_session
         person.reload
-        skip("Add assertions for updated state")
+        expect(person.first_name).to eq("NewFirstName")
+        expect(person.last_name).to eq("NewLastName")
       end
 
       it "assigns the requested person as @person" do
