@@ -106,6 +106,19 @@ describe 'email addresses', type: :feature do
       expect(current_path).to eq(person_path(person))
       expect(page).to have_content('edited.email.com')
     end
+
+    it 'has links to delete email addresses' do 
+      person.email_addresses.each do |address| 
+        expect(page).to have_link('delete', href: email_address_path(address))
+      end
+    end 
+
+    it 'deletes an email address' do 
+      page.find_link('delete', href: email_address_path(person.email_addresses.first.id)).click
+      expect(current_path).to eq(person_path(person))
+      expect(page).not_to have_content("jim@jones.com")
+      expect(page).to have_content("mail@test.com")
+    end 
   end
 end
 
