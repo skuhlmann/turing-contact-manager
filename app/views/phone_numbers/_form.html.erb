@@ -19,7 +19,7 @@
     <%= f.label :contact_id %><br>
     <%= f.number_field :contact_id %>
   </div>
-    <%= f.hidden_field :contact_type, :value => "Person" %>
+    <%= f.hidden_field :contact_type, :value => @phone_number.contact_type %>
   <div class="actions">
     <%= f.submit %>
   </div>
