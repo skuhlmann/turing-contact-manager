@@ -1,14 +1,13 @@
 require 'rails_helper'
 
-
 RSpec.describe EmailAddressesController, :type => :controller do
 
   let(:valid_attributes) {
-    {address: "sam@test.com", person_id: 1}
+    {address: "sam@test.com", contact_id: 1, contact_type: "Person"}
   }
 
   let(:invalid_attributes) {
-    {address: nil, person_id: nil}
+    {address: nil, person_id: nil, contact_type: nil}
   }
 
   let(:valid_session) { {} }
@@ -48,7 +47,7 @@ RSpec.describe EmailAddressesController, :type => :controller do
     describe "with valid params" do
 
       let(:alice) {Person.create(first_name: 'Alice', last_name: 'Smith')}
-      let(:valid_attributes) { {address: "new@email.com", person_id: alice.id}}
+      let(:valid_attributes) { {address: "new@email.com", contact_id: alice.id, contact_type: 'Person'}}
 
       it "creates a new EmailAddress" do
         expect {
@@ -84,15 +83,15 @@ RSpec.describe EmailAddressesController, :type => :controller do
   describe "PUT update" do
     describe "with valid params" do
       let(:alice) {Person.create(first_name: 'Alice', last_name: 'Smith')}
-      let(:valid_attributes) { {address: "new@email.com", person_id: alice.id}}
-      let(:new_attributes) { {address: "super_new@email.com", person_id: alice.id} }
+      let(:valid_attributes) { {address: "new@email.com", contact_id: alice.id, contact_type: "Person"}}
+      let(:new_attributes) { {address: "super_new@email.com", contact_id: alice.id, contact_type: "Person"}}
 
       it "updates the requested email_address" do
         email_address = EmailAddress.create! valid_attributes
         put :update, {:id => email_address.to_param, :email_address => new_attributes}, valid_session
         email_address.reload
         expect(email_address.address).to eq("super_new@email.com")
-        expect(email_address.person_id).to eq(alice.id)
+        expect(email_address.contact_id).to eq(alice.id)
       end
 
       it "assigns the requested email_address as @email_address" do
@@ -125,7 +124,7 @@ RSpec.describe EmailAddressesController, :type => :controller do
 
   describe "DELETE destroy" do
     let(:alice) {Person.create(first_name: 'Alice', last_name: 'Smith')}
-    let(:valid_attributes) { {address: "new@email.com", person_id: alice.id}}
+    let(:valid_attributes) { {address: "new@email.com", contact_id: alice.id, contact_type: "Person"}}
 
     it "destroys the requested email_address" do
       email_address = EmailAddress.create! valid_attributes
